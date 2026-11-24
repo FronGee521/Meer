@@ -1,37 +1,37 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#070b12"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="description" content="Тюнер и метроном для музыкантов"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="icon" href="icons/icon.svg" type="image/svg+xml"><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="style.css"><title>tuner.metronom</title></head><body>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#070b12"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="description" content="Тюнер и метроном для музыкантов"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="icon" href="icons/icon-192.png"><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="style.css"><title>tuner.metronom</title></head><body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-set" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></symbol>
-<symbol id="i-tuner" viewBox="0 0 24 24"><path d="M3.5 17.5a8.5 8.5 0 0 1 17 0"/><path d="M12 17.5 16 10"/><circle cx="12" cy="17.5" r="1.2"/></symbol>
-<symbol id="i-metro" viewBox="0 0 24 24"><path d="M8.5 21 10.6 3.5h2.8L15.5 21z"/><path d="m12 16.5 3.6-8M6.5 21h11"/></symbol>
+<symbol id="i-tuner" viewBox="0 0 24 24"><path d="M8.5 3v6.5a3.5 3.5 0 0 0 7 0V3"/><path d="M12 13v8M9.5 21h5"/><path d="M4.5 7.5c-.9 1.3-.9 3.2 0 4.5M19.5 7.5c.9 1.3.9 3.2 0 4.5"/></symbol>
+<symbol id="i-metro" viewBox="0 0 24 24"><path d="M9.3 3h5.4l3.4 15.6a2 2 0 0 1-2 2.4H7.9a2 2 0 0 1-2-2.4z"/><path d="M12 16.5 15.3 7"/><path d="M13.3 11.5h3.2"/></symbol>
 <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
 <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></symbol>
 <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
 <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4.5h4.5"/></symbol>
 <symbol id="i-vol" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5zM15.5 9a4 4 0 0 1 0 6"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
 </defs></svg>
 <div class="bg"></div>
 <div class="app">
-<header><img src="icons/icon.svg" alt=""><b>tuner<i>.</i>metronom</b><button class="ib" id="open-set" aria-label="Settings"><svg class="i"><use href="#i-set"/></svg></button></header>
+<header><img src="icons/icon-192.png" alt=""><b>tuner<i>.</i>metronom</b><button class="ib" id="open-set" aria-label="Settings"><svg class="i"><use href="#i-set"/></svg></button></header>
 <main id="tuner" class="screen on">
  <section class="card hero">
   <div class="row"><span class="tag" id="mode-tag"></span><span class="live"><i></i><span id="live"></span></span></div>
   <div class="note"><span id="note">—</span><sup id="oct"></sup></div>
   <div class="meta"><span id="hz">— Hz</span><span id="cents">0 ¢</span></div>
-  <svg id="gauge" viewBox="0 0 320 188" role="img" aria-label="Tuning gauge">
-   <defs><linearGradient id="gg" gradientUnits="userSpaceOnUse" x1="32" x2="288"><stop offset="0" stop-color="#f87171"/><stop offset=".3" stop-color="#fbbf24"/><stop offset=".5" stop-color="#4ade80"/><stop offset=".7" stop-color="#fbbf24"/><stop offset="1" stop-color="#f87171"/></linearGradient><filter id="gl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter></defs>
-   <path d="M32 137.4A130 130 0 0 1 288 137.4" class="g-glow" filter="url(#gl)"/><path d="M32 137.4A130 130 0 0 1 288 137.4" class="g-arc"/>
+  <svg id="gauge" viewBox="0 0 320 180" role="img" aria-label="Tuning gauge">
+   <defs><linearGradient id="gg" gradientUnits="userSpaceOnUse" x1="20" x2="300"><stop offset="0" stop-color="#f87171"/><stop offset=".3" stop-color="#fbbf24"/><stop offset=".5" stop-color="#4ade80"/><stop offset=".7" stop-color="#fbbf24"/><stop offset="1" stop-color="#f87171"/></linearGradient><filter id="gl" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="5"/></filter></defs>
+   <path d="M20 160A140 140 0 0 1 300 160" class="g-glow" filter="url(#gl)"/><path d="M20 160A140 140 0 0 1 300 160" class="g-arc"/>
    <g id="ticks"></g>
-   <g id="needle"><path d="M160 160V46" class="n-glow"/><path d="M160 160V46" class="n-core"/></g>
+   <g id="needle"><path d="M160 160V50" class="n-glow"/><path d="M160 160V50" class="n-core"/></g>
    <circle cx="160" cy="160" r="13" class="hub"/><circle cx="160" cy="160" r="4.5" class="hub-dot"/>
   </svg>
-  <div class="status" id="status"></div>
-  <div class="btns"><button class="pri" id="start"><svg class="i"><use href="#i-mic"/></svg><span></span></button><button class="sec" id="mode-btn"></button></div>
+  <div class="status" id="status"><svg class="i"><use href="#i-check"/></svg><span></span></div>
+  <div class="btns"><button class="pri" id="start"><svg class="i"><use href="#i-mic"/></svg><span></span></button></div>
  </section>
- <section class="card">
-  <div class="sec-head"><b data-i="strings"></b><span data-i="std"></span></div>
+ <section class="card" id="str-card">
+  <div class="sec-head"><b data-i="strings"></b><span id="str-count"></span></div>
   <div class="strings" id="strings"></div>
-  <button class="sec wide" id="reset"><svg class="i"><use href="#i-reset"/></svg><span data-i="reset"></span></button>
  </section>
 </main>
 <main id="metro" class="screen">
@@ -49,9 +49,9 @@
   <div class="vol"><svg class="i"><use href="#i-vol"/></svg><input type="range" id="vol" min="0" max="100" aria-label="Volume"><strong id="vol-v"></strong></div>
  </section>
 </main>
-<aside id="sheet" aria-hidden="true"><div class="sheet-in"><div class="sheet-head"><h2 data-i="settings"></h2><button class="ib" id="close-set" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div><div id="sets"></div><p class="ver">tuner.metronom v4.0</p></div></aside>
+<aside id="sheet" aria-hidden="true"><div class="sheet-in"><div class="sheet-head"><button class="ib" id="close-set" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button><h2 data-i="settings"></h2></div><div class="acc" id="sets"></div><p class="ver">tuner.metronom v4.1</p></div></aside>
 <div id="toast" class="toast" role="status"></div>
-<nav><button class="on" data-s="tuner"><svg class="i"><use href="#i-tuner"/></svg><span data-i="tuner"></span></button><button data-s="metro"><svg class="i"><use href="#i-metro"/></svg><span data-i="metro"></span></button></nav>
+<nav><button class="on" data-s="tuner"><span class="pill"><svg class="i"><use href="#i-tuner"/></svg></span><span data-i="tuner"></span></button><button data-s="metro"><span class="pill"><svg class="i"><use href="#i-metro"/></svg></span><span data-i="metro"></span></button></nav>
 </div>
 <script src="app.js"></script>
 </body></html>
