@@ -7,6 +7,7 @@ Object.assign(T.ru,{instrument:"Инструмент",i_guitar:"Гитара",i_
 Object.assign(T.ru,{chords:"Аккорды",strum:"Сыграть",root:"Нота",type:"Тип",goal:"Цель на день",stage:"Сцена",min:"мин",series:"Серия",days:"дн.",today:"сегодня",goalhit:"Цель на сегодня выполнена!"});Object.assign(T.en,{chords:"Chords",strum:"Strum",root:"Root",type:"Type",goal:"Daily goal",stage:"Stage",min:"min",series:"Streak",days:"d",today:"today",goalhit:"Daily goal reached!"});
 Object.assign(T.ru,{learn:"Уроки",l_min:"Минута",l_best:"Рекорд",l_minhint:"60 секунд, максимум аккордов. Каждые 3 аккорда дают +5 секунд.",l_start:"Начать",l_next:"Дальше",l_again:"Ещё раз",l_skip:"Пропустить",l_listen:"Слушаю…",l_hold:"Держи…",l_slow:"Слишком медленно — не засчитано",l_done:"Урок пройден!",l_fail:"Не получилось, попробуй ещё",l_change:"Связка",l_sprint:"Минутка",l_melody:"Мелодия · 1 струна",l_chords:"аккордов",sec:"с",l_mod1:"Первые аккорды",l_mod2:"Классика",l_d_chords:"Играй аккорды по очереди и держи звучание около полсекунды.",l_d_change:"Меняй аккорды быстро: на смену даётся {x} с, иначе она не засчитается. Нужно {need} из {n}.",l_d_sprint:"60 секунд. Играй как можно больше аккордов: каждые 3 аккорда дают +5 секунд.",l_d_melody:"Босс! Сыграй мелодию на одной струне быстрее, чем за {time} с. Лады: {fr}.",l_str:"-я струна"});
 Object.assign(T.en,{learn:"Lessons",l_min:"One minute",l_best:"Best",l_minhint:"60 seconds, as many chords as you can. Every 3 chords add 5 seconds.",l_start:"Start",l_next:"Continue",l_again:"Try again",l_skip:"Skip",l_listen:"Listening…",l_hold:"Hold it…",l_slow:"Too slow — not counted",l_done:"Lesson complete!",l_fail:"Not this time, try again",l_change:"Switch",l_sprint:"Sprint",l_melody:"Melody · 1 string",l_chords:"chords",sec:"s",l_mod1:"First chords",l_mod2:"Classics",l_d_chords:"Play the chords one by one and hold each for half a second.",l_d_change:"Switch chords fast: you get {x} s per change, slower changes don't count. Need {need} of {n}.",l_d_sprint:"60 seconds. Play as many chords as you can: every 3 chords add 5 seconds.",l_d_melody:"Boss! Play the melody on one string in under {time} s. Frets: {fr}.",l_str:" string"});
+Object.assign(T.ru,{c_basic:"Базовые",c_seventh:"Септаккорды",c_power:"Квинтаккорды",c_barre:"Баре",c_other:"Другое"});Object.assign(T.en,{c_basic:"Basic",c_seventh:"Sevenths",c_power:"Power chords",c_barre:"Barre",c_other:"Other"});
 const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(_){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}}};
 const S=Object.assign({lang:"ru",theme:"dark",notation:"latin",ref:440,prec:3,cal:0,sound:"classic",vol:70,inst:"guitar",goal:3,cr:0,ct:"maj",bpm:120,meter:"4/4",accent:1},store.get("tm4",{}));
 const tuned=new Set(),save=()=>store.set("tm4",S);
@@ -103,9 +104,14 @@ function diag(c){
  if(c.bar)h+=`<rect class="d-bar" x="${X(c.bar[0])-10}" y="${cy(c.b)-10}" width="${X(c.bar[1])-X(c.bar[0])+20}" height="20" rx="10"/>`;
  f.forEach((x,i)=>{h+=x>0?`<circle class="d-dot" cx="${X(i)}" cy="${cy(x)}" r="11"/>`:x===0?`<circle class="d-o" cx="${X(i)}" cy="34" r="6"/>`:`<text class="d-t" x="${X(i)}" y="40">×</text>`});
  return `<svg viewBox="0 0 200 222" aria-hidden="true">${h}</svg>`}
-function renderChord(){const r=S.cr,ty=S.ct;$("#c-name").textContent=rootName(r)+SUF[ty];$("#c-notes").textContent=IV[ty].map(i=>rootName((r+i)%12)).join(" · ");$("#c-diag").innerHTML=diag(chord(r,ty));
+const CATS=[["basic",[[9,"maj"],[9,"m"],[0,"maj"],[2,"maj"],[2,"m"],[4,"maj"],[4,"m"],[7,"maj"]]],["seventh",[[9,"7"],[11,"7"],[0,"7"],[2,"7"],[4,"7"],[7,"7"],[9,"m7"],[4,"m7"],[0,"maj7"],[2,"maj7"],[5,"maj7"],[7,"maj7"]]],["power",[...Array(12).keys()].map(r=>[r,"5"])],["barre",[[5,"maj"],[5,"m"],[11,"maj"],[11,"m"],[0,"m"],[7,"m"],[6,"m"],[10,"maj"],[1,"m"],[8,"m"]]],["other",null]];
+function renderChord(){
+ {const cat=S.cc||"basic",C=CATS.find(x=>x[0]===cat);$("#cats").innerHTML=CATS.map(x=>`<button data-c="${x[0]}" class="${x[0]===cat?"on":""}">${t("c_"+x[0])}</button>`).join("");$("#cother").hidden=!!C[1];$("#cgrid").hidden=!C[1];
+  if(C[1])$("#cgrid").innerHTML=C[1].map(([a,b])=>`<button data-r="${a}" data-t="${b}" class="${a===S.cr&&b===S.ct?"on":""}">${rootName(a)+SUF[b]}</button>`).join("")}const r=S.cr,ty=S.ct;$("#c-name").textContent=rootName(r)+SUF[ty];$("#c-notes").textContent=IV[ty].map(i=>rootName((r+i)%12)).join(" · ");$("#c-diag").innerHTML=diag(chord(r,ty));
  $("#roots").innerHTML=[...Array(12).keys()].map(i=>`<button data-r="${i}" class="${i===r?"on":""}">${rootName(i)}</button>`).join("");$("#ctypes").innerHTML=TY.map(k=>`<button data-t="${k}" class="${k===ty?"on":""}">${k==="maj"?"maj":SUF[k]}</button>`).join("")}
 function strum(){const c=chord(S.cr,S.ct);lastAct=performance.now();try{ac().resume()}catch(_){}c.f.forEach((x,i)=>{if(x>=0)setTimeout(()=>tone(mf(INST.guitar[i]+x),1.5,.1),i*55)})}
+$("#cats").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.cc=b.dataset.c;const f=CATS.find(x=>x[0]===S.cc)[1];if(f){[S.cr,S.ct]=f[0]}save();renderChord()};
+$("#cgrid").onclick=e=>{const b=e.target.closest("button");if(b){S.cr=+b.dataset.r;S.ct=b.dataset.t;save();renderChord()}};
 $("#roots").onclick=e=>{const b=e.target.closest("button");if(b){S.cr=+b.dataset.r;save();renderChord()}};$("#ctypes").onclick=e=>{const b=e.target.closest("button");if(b){S.ct=b.dataset.t;save();renderChord()}};
 $("#c-play").onclick=strum;$("#c-diag").onclick=strum;
 
@@ -131,11 +137,14 @@ const MODS=[{nodes:[
  {id:"2e",k:"change",c:["G","D","Em","C"],n:12,need:8,x:3,boss:1}]}];
 const ALL=MODS.flatMap(m=>m.nodes),L=store.get("tm4l",{done:{},best:0}),saveL=()=>store.set("tm4l",L);
 function chromaFrom(fd,sr,N,ref){
- const bw=sr/N,k0=Math.ceil(70/bw),k1=Math.min(fd.length-2,Math.floor(1500/bw)),c=new Float32Array(12);let mx=-200;
+ const bw=sr/N,k0=Math.ceil(70/bw),k1=Math.min(fd.length-2,Math.floor(1500/bw)),c=new Float32Array(12),pk=[];let mx=-200;
  for(let k=k0;k<=k1;k++)if(fd[k]>mx)mx=fd[k];
  if(mx<-72)return null;
  for(let k=k0;k<=k1;k++){const a=fd[k-1],b=fd[k],d=fd[k+1];if(b<=a||b<d||b<mx-35)continue;
-  const den=a-2*b+d,m=12*Math.log2((k+(den?.5*(a-d)/den:0))*bw/ref)+69,r=Math.round(m);if(Math.abs(m-r)>.3)continue;c[((r%12)+12)%12]+=10**(b/10)}
+  const den=a-2*b+d;pk.push([12*Math.log2((k+(den?.5*(a-d)/den:0))*bw/ref)+69,10**(b/10)])}
+ let sx=0,sy=0;for(const[m,p]of pk){const q=(m-Math.round(m))*2*Math.PI;sx+=p*Math.cos(q);sy+=p*Math.sin(q)}
+ const off=Math.max(-.4,Math.min(.4,Math.atan2(sy,sx)/(2*Math.PI)));
+ for(const[m,p]of pk){const mm=m-off,r=Math.round(mm);if(Math.abs(mm-r)>.3)continue;c[((r%12)+12)%12]+=p}
  const tot=c.reduce((x,y)=>x+y,0);return tot?c.map(v=>v/tot):null
 }
 function chordHit(c,T){
@@ -153,7 +162,7 @@ function panel(html,btns){const r=$("#l-res");r.innerHTML=html+`<div class="btns
 async function openLesson(n,again){
  try{ac();await ctx.resume();LS=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}catch(e){return toast(t("micerr"))}
  const src=ctx.createMediaStreamSource(LS);aC=ctx.createAnalyser();aC.fftSize=16384;aC.smoothingTimeConstant=.4;aM=ctx.createAnalyser();aM.fftSize=4096;aM.smoothingTimeConstant=0;src.connect(aC);src.connect(aM);fd=new Float32Array(aC.frequencyBinCount);mb=new Float32Array(4096);
- X={n,i:0,j:0,cnt:0,ok:0,skip:0,score:0,bonus:0,hs:null,bad:0,st:false,run:false,shown:"",left:0};
+ X={n,i:0,j:0,cnt:0,ok:0,skip:0,score:0,bonus:0,sc:0,b:[],st:false,run:false,shown:"",left:0};
  if(n.k==="sprint")X.tg=pick();if(n.k==="melody")X.seq=n.fr.map(f=>INST.guitar[n.s]+f);
  if(!again){history.pushState({l:1},"");LY.classList.add("open");LY.setAttribute("aria-hidden","false")}
  const d=t("l_d_"+n.k).replace("{x}",n.x).replace("{need}",n.need).replace("{n}",n.n).replace("{time}",n.time).replace("{fr}",n.fr);
@@ -163,15 +172,15 @@ function startRun(){X.run=true;X.t0=X.tc=performance.now();$("#l-res").hidden=tr
 function tick(){
  if(!X||X.res||!X.run)return;const now=performance.now(),n=X.n;lastAct=now;let ok=false,c=null;
  if(n.k==="melody"){aM.getFloatTimeDomainData(mb);const f=yin(mb,ctx.sampleRate,60);ok=f>0&&Math.abs(1200*Math.log2(f*2**(S.cal/1200)/mf(X.seq[X.i])))<35}
- else{aC.getFloatFrequencyData(fd);c=chromaFrom(fd,ctx.sampleRate,aC.fftSize,S.ref);ok=chordHit(c,chTones(tgt()))}
+ else{aC.getFloatFrequencyData(fd);const f=chromaFrom(fd,ctx.sampleRate,aC.fftSize,S.ref);if(f){X.b.push(f);if(X.b.length>6)X.b.shift()}else X.b.shift();c=X.b.length?X.b[0].map((_,i)=>X.b.reduce((s,v)=>s+v[i],0)/X.b.length):null;ok=chordHit(c,chTones(tgt()))}
  $$("#l-chroma i").forEach((b,i)=>b.style.height=Math.max(4,(c?c[i]:0)*150)+"px");
- if(ok){X.hs??=now;X.bad=0}else if(++X.bad>3)X.hs=null;
- if(X.hs&&now-X.hs>=(n.k==="melody"?250:450)){X.hs=null;accept(now)}
+ X.sc=Math.max(0,Math.min(14,X.sc+(ok?1:-.5)));
+ if(X.sc>=(n.k==="melody"?5:9))accept(now);
  if(X.res)return;
  if(n.k==="sprint"){X.left=60+X.bonus-(now-X.t0)/1000;if(X.left<=0)end(false,0)}
  if(n.k==="melody"){X.left=n.time-(now-X.t0)/1000;if(X.left<=0)end(false,0)}
  paint()}
-function accept(now,sk){const n=X.n;if(!sk)try{tone(1568,.14,.07)}catch(_){}
+function accept(now,sk){const n=X.n;X.sc=0;X.b=[];if(!sk)try{tone(1568,.14,.07)}catch(_){}
  if(n.k==="chords"){if(sk)X.skip++;if(++X.i>=n.seq.length)return end(true,X.skip?X.skip>1?1:2:3)}
  else if(n.k==="change"){if(!X.st)X.st=true;else{X.cnt++;if(!sk&&(now-X.tc)/1000<=n.x)X.ok++;else if(!sk)toast(t("l_slow"));if(X.cnt>=n.n)return end(X.ok>=n.need,X.ok>=n.n-1?3:X.ok>n.need?2:1)}X.tc=now;X.j++}
  else if(n.k==="sprint"){if(!sk){X.score++;if(X.score%3===0){X.bonus+=5;toast("+5 "+t("sec"))}}X.tg=pick()}
@@ -195,7 +204,7 @@ function paint(){const n=X.n,k=n.k,now=performance.now(),mel=k==="melody",id=mel
  else if(k==="sprint"){p=Math.min(1,X.left/(60+X.bonus));tm=p;$("#l-meta").textContent=X.score+" · "+Math.ceil(X.left)}
  else{p=X.i/X.seq.length;tm=X.left/n.time;$("#l-meta").textContent=X.i+"/"+X.seq.length+" · "+Math.ceil(X.left)}
  $("#l-prog").style.width=p*100+"%";$("#l-tbar").style.width=Math.max(0,Math.min(1,tm))*100+"%";$("#l-timer").classList.toggle("red",red);
- $("#l-status span").textContent=X.hs?t("l_hold"):t("l_listen");$("#l-status").classList.toggle("ok",!!X.hs)}
+ $("#l-status span").textContent=X.sc>1?t("l_hold"):t("l_listen");$("#l-status").classList.toggle("ok",X.sc>1)}
 function closeLesson(){if(X){clearInterval(X.timer);X=null}stopLs();LY.classList.remove("open");LY.setAttribute("aria-hidden","true");renderPath();updStreak()}
 $("#path").onclick=e=>{const b=e.target.closest(".node");b&&!b.disabled&&openLesson(ALL.find(n=>n.id===b.dataset.n))};
 $("#q-go").onclick=()=>{const p=[...new Set(ALL.filter(n=>L.done[n.id]&&(n.seq||n.c)).flatMap(n=>n.seq||n.c))];openLesson({k:"sprint",quick:1,pool:p.length>=2?p:["Em","Am","D","A"],goal:0})};
