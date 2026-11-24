@@ -9,11 +9,11 @@
 <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
 <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4.5h4.5"/></symbol>
 <symbol id="i-vol" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5zM15.5 9a4 4 0 0 1 0 6"/></symbol>
-<symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 2c.5 3-1.4 4.8-3.2 6.9C7.2 10.8 6 12.5 6 15a6 6 0 0 0 12 0c0-2.2-1-3.8-2-5.2-.3 1.3-1 2.2-2 2.6.4-3.4-.2-7.6-2-10.4z"/></symbol><symbol id="i-chords" viewBox="0 0 24 24"><path d="M7 4v16M12 4v16M17 4v16M5 8h14M5 14h14"/><circle cx="12" cy="11" r="1.9" fill="currentColor"/><circle cx="17" cy="17" r="1.9" fill="currentColor"/></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7z"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M6 8h12l-3.5-3.5M18 16H6l3.5 3.5"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 5 13.5h6L10 22l8-11.5h-6z"/></symbol><symbol id="i-path" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H13a3.5 3.5 0 0 0 0-7h-2a3.5 3.5 0 0 1 0-7h4.8"/></symbol><symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
 </defs></svg>
 <div class="bg"></div>
 <div class="app">
-<header><img src="icons/icon-192.png" alt=""><b>tuner<i>.</i>metronom</b><button class="ib" id="open-set" aria-label="Settings"><svg class="i"><use href="#i-set"/></svg></button></header>
+<header><img src="icons/icon-192.png" alt=""><b>tuner<i>.</i>metronom</b><button class="streak" id="streak" aria-label="Streak"><svg class="f"><use href="#i-flame"/></svg><b id="sn">0</b></button><button class="ib" id="open-set" aria-label="Settings"><svg class="i"><use href="#i-set"/></svg></button></header>
 <main id="tuner" class="screen on">
  <section class="card hero">
   <div class="row"><span class="tag" id="mode-tag"></span><span class="live"><i></i><span id="live"></span></span></div>
@@ -49,9 +49,28 @@
   <div class="vol"><svg class="i"><use href="#i-vol"/></svg><input type="range" id="vol" min="0" max="100" aria-label="Volume"><strong id="vol-v"></strong></div>
  </section>
 </main>
-<aside id="sheet" aria-hidden="true"><div class="sheet-in"><div class="sheet-head"><button class="ib" id="close-set" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button><h2 data-i="settings"></h2></div><div class="acc" id="sets"></div><p class="ver">tuner.metronom v4.1</p></div></aside>
+<main id="chords" class="screen">
+ <section class="card hero">
+  <div class="row"><span class="tag" data-i="chords"></span><span class="tag" id="c-notes"></span></div>
+  <div class="cname" id="c-name">C</div>
+  <button class="cdiag" id="c-diag" aria-label="Play"></button>
+  <div class="btns"><button class="pri" id="c-play"><svg class="i"><use href="#i-vol"/></svg><span data-i="strum"></span></button></div>
+ </section>
+ <section class="card"><div class="sec-head"><b data-i="root"></b></div><div class="pk roots" id="roots"></div><div class="sec-head" style="margin-top:18px"><b data-i="type"></b></div><div class="pk types" id="ctypes"></div></section>
+</main>
+<main id="learn" class="screen">
+ <section class="card hero"><div class="sec-head"><b data-i="learn"></b><span id="lvl"></span></div><div id="path"></div></section>
+ <section class="card"><div class="sec-head"><b data-i="l_min"></b><span><span data-i="l_best"></span> <b id="best">0</b></span></div><p class="hintp" data-i="l_minhint"></p><div class="btns"><button class="pri" id="q-go"><svg class="i"><use href="#i-bolt"/></svg><span data-i="l_start"></span></button></div></section>
+</main>
+<aside id="sheet" aria-hidden="true"><div class="sheet-in"><div class="sheet-head"><button class="ib" id="close-set" aria-label="Back"><svg class="i"><use href="#i-back"/></svg></button><h2 data-i="settings"></h2></div><div class="acc" id="sets"></div><p class="ver">tuner.metronom v4.3</p></div></aside>
+<aside id="lesson" aria-hidden="true"><div class="sheet-in">
+ <div class="l-top"><button class="ib" id="l-close" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button><div class="l-bar"><i id="l-prog"></i></div><b class="l-meta" id="l-meta"></b></div>
+ <div class="l-title" id="l-title"></div>
+ <div id="l-play"><div class="l-name" id="l-name"></div><div class="l-next" id="l-next"></div><div class="cdiag" id="l-diag"></div><div class="melody" id="l-mel"></div><div class="l-timer" id="l-timer"><i id="l-tbar"></i></div><div class="chroma" id="l-chroma"></div><div class="status" id="l-status"><svg class="i"><use href="#i-check"/></svg><span></span></div><div class="btns"><button class="sec" id="l-skip" data-i="l_skip"></button></div></div>
+ <div class="l-res" id="l-res" hidden></div>
+</div></aside>
 <div id="toast" class="toast" role="status"></div>
-<nav><button class="on" data-s="tuner"><span class="pill"><svg class="i"><use href="#i-tuner"/></svg></span><span data-i="tuner"></span></button><button data-s="metro"><span class="pill"><svg class="i"><use href="#i-metro"/></svg></span><span data-i="metro"></span></button></nav>
+<nav><button class="on" data-s="tuner"><span class="pill"><svg class="i"><use href="#i-tuner"/></svg></span><span data-i="tuner"></span></button><button data-s="metro"><span class="pill"><svg class="i"><use href="#i-metro"/></svg></span><span data-i="metro"></span></button><button data-s="chords"><span class="pill"><svg class="i"><use href="#i-chords"/></svg></span><span data-i="chords"></span></button><button data-s="learn"><span class="pill"><svg class="i"><use href="#i-path"/></svg></span><span data-i="learn"></span></button></nav>
 </div>
 <script src="app.js"></script>
 </body></html>
